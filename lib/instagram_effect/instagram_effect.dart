@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'animationWidget.dart';
+
 class InstagramEffect extends StatefulWidget {
   const InstagramEffect({Key? key}) : super(key: key);
 
@@ -8,6 +10,23 @@ class InstagramEffect extends StatefulWidget {
 }
 
 class _InstagramEffectState extends State<InstagramEffect> {
+  bool isLoved = false;
+  bool isAnimating = false;
+  final Duration duration = const Duration(milliseconds: 700);
+
+  toggleReaction() {
+    if (isLoved) {
+      setState(() {
+        isLoved = !isLoved;
+      });
+    } else {
+      setState(() {
+        isLoved = !isLoved;
+        isAnimating = !isAnimating;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,16 +53,42 @@ class _InstagramEffectState extends State<InstagramEffect> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(
-            'https://www.themarysue.com/wp-content/uploads/2022/12/wednesday.jpeg',
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              GestureDetector(
+                onDoubleTap: () => toggleReaction(),
+                child: Image.network(
+                  'https://www.themarysue.com/wp-content/uploads/2022/12/wednesday.jpeg',
+                ),
+              ),
+              AnimatedOpacity(
+                duration: duration,
+                opacity: isAnimating ? 1 : 0,
+                child: AnimationWidget(
+                  isAnimating: isAnimating,
+                  duration: duration,
+                  onEnd: () {
+                    setState(() {
+                      isAnimating = false;
+                    });
+                  },
+                  child: const Icon(
+                    Icons.favorite,
+                    size: 120,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 10),
           IconButton(
-            onPressed: () {},
+            onPressed: () => toggleReaction(),
             icon: Icon(
-              Icons.favorite_border,
+              isLoved ? Icons.favorite : Icons.favorite_border,
               size: 32,
-              color: Colors.white,
+              color: isLoved ? Colors.red : Colors.white,
             ),
           )
         ],
