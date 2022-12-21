@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 
-import 'home_screen.dart';
+// import 'home_screen.dart';
+import 'instagram_effect/instagram_effect.dart';
 
-void main()=> runApp(const DemoApp());
+void main() => runApp(const DemoApp());
 
-class DemoApp extends StatelessWidget{
+class DemoApp extends StatelessWidget {
   const DemoApp({super.key});
 
   @override
-  Widget build(BuildContext context){
-    return const MaterialApp(home: HomeScreen(),);
+  Widget build(BuildContext context) {
+    return  MaterialApp(
+debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark(),
+      home: const InstagramEffect(),
+      // HomeScreen()
+    );
   }
 }
