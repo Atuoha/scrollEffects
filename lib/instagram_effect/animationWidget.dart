@@ -6,7 +6,7 @@ class AnimationWidget extends StatefulWidget {
     required this.child,
     required this.duration,
     required this.isAnimating,
-    required this.onEnd,
+    this.onEnd,
   }) : super(key: key);
   final Widget child;
   final Duration duration;
@@ -25,7 +25,7 @@ class _AnimationWidgetState extends State<AnimationWidget>
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(vsync: this,duration: widget.duration);
+    controller = AnimationController(vsync: this, duration: widget.duration);
     scale = Tween<double>(begin: 1, end: 1.2).animate(controller!);
   }
 
@@ -38,12 +38,15 @@ class _AnimationWidgetState extends State<AnimationWidget>
     }
   }
 
-  animate() async{
-    await controller!.forward();
-    await controller!.reverse();
+  animate() async {
+    if (widget.isAnimating) {
+      await controller!.forward();
+      await controller!.reverse();
+      await Future.delayed(const Duration(milliseconds: 400));
 
-    if(widget.onEnd != null){
-      widget.onEnd!();
+      if (widget.onEnd != null) {
+        widget.onEnd!();
+      }
     }
   }
 

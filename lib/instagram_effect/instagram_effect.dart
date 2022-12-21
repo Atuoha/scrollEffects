@@ -83,12 +83,16 @@ class _InstagramEffectState extends State<InstagramEffect> {
             ],
           ),
           const SizedBox(height: 10),
-          IconButton(
-            onPressed: () => toggleReaction(),
-            icon: Icon(
-              isLoved ? Icons.favorite : Icons.favorite_border,
-              size: 32,
-              color: isLoved ? Colors.red : Colors.white,
+          AnimationWidget(
+            isAnimating:isLoved,
+            duration: duration,
+            child: IconButton(
+              onPressed: () => toggleReaction(),
+              icon: Icon(
+                isLoved ? Icons.favorite : Icons.favorite_border,
+                size: 32,
+                color: isLoved ? Colors.red : Colors.white,
+              ),
             ),
           )
         ],
